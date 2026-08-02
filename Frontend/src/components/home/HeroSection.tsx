@@ -21,7 +21,7 @@ export const HeroSection: React.FC = () => {
 
             {/* Signature Hero Headline in Libre Caslon Text with single Forest Grove Green word */}
             <h1 className="font-editorial-serif text-4xl sm:text-6xl lg:text-[68px] font-normal leading-[1.15] tracking-tight text-[#1c1c1e]">
-              Precision Nutraceuticals Built for Every{' '}
+              Precision Nutraceuticals Born for Every{' '}
               <span className="text-[#0b835c] italic font-normal">Generation</span>
             </h1>
 
