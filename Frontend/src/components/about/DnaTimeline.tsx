@@ -19,7 +19,7 @@ const MILESTONES: Milestone[] = [
     year: '2021',
     title: 'Founding & Scientific Blueprint',
     subtitle: 'Establishment of Varuta Pharma Pvt. Ltd.',
-    description: 'Incorporated with the mission to bridge 4 decades of clinical research excellence with modern bio-nutraceutical science.',
+    description: 'Incorporated with the mission to pioneer evidence-graded nutraceutical formulations and targeted phyto-therapeutics.',
     details: ['Ethical marketing model blueprint', 'Doctor-channel strategy initialized', 'Research focus on biological deficiency pathways'],
     pos: [-2.2, 2.5, 0.4],
   },

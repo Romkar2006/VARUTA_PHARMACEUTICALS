@@ -1,0 +1,49 @@
+{
+  "short_name": "Varuta",
+  "name": "Varuta Pharma — Precision Bio-Nutraceuticals",
+  "icons": [
+    {
+      "src": "/logo-emblem.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo-emblem.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "id": "/",
+  "start_url": "/",
+  "background_color": "#ffffff",
+  "theme_color": "#0b835c",
+  "display": "standalone",
+  "orientation": "any",
+  "description": "Born for Generations — Science-Driven Precision Bio-Nutraceuticals & Preventive Healthcare.",
+  "categories": ["health", "medical", "pharmaceuticals"],
+  "shortcuts": [
+    {
+      "name": "Products Catalog",
+      "short_name": "Products",
+      "description": "View 7 Standardized Therapeutic Sectors & Formulations",
+      "url": "/products",
+      "icons": [{ "src": "/logo-emblem.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Clinical R&D",
+      "short_name": "R&D",
+      "description": "Genyurved Research & Quality Standards",
+      "url": "/research-and-quality",
+      "icons": [{ "src": "/logo-emblem.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Contact & HCP Enquiries",
+      "short_name": "Contact",
+      "description": "Contact Corporate Headquarters & Medical Board",
+      "url": "/contact",
+      "icons": [{ "src": "/logo-emblem.png", "sizes": "192x192" }]
+    }
+  ]
+}

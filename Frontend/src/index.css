@@ -1,15 +1,21 @@
 @import "tailwindcss";
 
 :root {
-  /* Colors */
+  /* Core Brand Colors */
   --color-forest-grove: #0b835c;
-  --color-pine-shadow: #1c2b27;
+  --color-pine-shadow: #061e18;
   --color-ink-black: #1c1c1e;
   --color-graphite: #303033;
   --color-slate-mid: #676768;
-  --color-mist-gray: #eff1f6;
+  --color-mist-gray: #f8fafc;
   --color-pure-white: #ffffff;
-  --color-shadow-smoke: #bfbfbf;
+
+  /* Multi-Dimensional Sector Accents */
+  --color-circadian-indigo: #4f46e5;
+  --color-endocrine-amber: #d97706;
+  --color-mitochondrial-cyan: #06b6d4;
+  --color-crimson-iron: #e11d48;
+  --color-male-vitality-blue: #2563eb;
 
   /* Typography */
   --font-serif: 'Libre Caslon Text', Georgia, serif;
@@ -28,19 +34,32 @@ html {
   font-family: var(--font-serif);
 }
 
+/* Gradient Text Utilities */
+.text-gradient-emerald-indigo {
+  background: linear-gradient(135deg, #0b835c 0%, #0d9488 40%, #4f46e5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-amber-emerald {
+  background: linear-gradient(135deg, #d97706 0%, #0b835c 60%, #06b6d4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 /* Card Surface Tier */
 .card-mist {
-  background-color: #eff1f6;
+  background-color: #f8fafc;
   border-radius: 20px;
-  border: 1px solid rgba(28, 28, 30, 0.06);
-  box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.08), 0px 1px 2px 0px rgba(0, 0, 0, 0.04) inset;
+  border: 1px solid rgba(28, 28, 30, 0.08);
+  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.04);
   transition: all 0.25s ease-in-out;
 }
 
 .card-mist:hover {
-  border-color: rgba(11, 131, 92, 0.3);
+  border-color: rgba(11, 131, 92, 0.4);
   transform: translateY(-2px);
-  box-shadow: 0px 4px 12px 0px rgba(11, 131, 92, 0.08);
+  box-shadow: 0px 8px 24px 0px rgba(11, 131, 92, 0.1);
 }
 
 /* Pill Tags & Buttons */
@@ -120,9 +139,65 @@ html {
   animation-play-state: paused;
 }
 
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+  -webkit-tap-highlight-color: transparent;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Glassmorphism Surface Classes */
+.glass-panel-light {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 32px 0 rgba(11, 131, 92, 0.06);
+}
+
+.glass-panel-dark {
+  background: rgba(6, 30, 24, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(11, 131, 92, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+.glass-pill {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Mobile Scrollbar Hide Utility */
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* Shimmer & Glow Animations */
+@keyframes glassGlow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(11, 131, 92, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(11, 131, 92, 0.35);
+  }
+}
+
+.animate-glass-glow {
+  animation: glassGlow 3s ease-in-out infinite;
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
   background: #ffffff;

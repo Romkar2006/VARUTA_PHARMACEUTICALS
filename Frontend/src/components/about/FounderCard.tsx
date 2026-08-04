@@ -20,16 +20,9 @@ export const FounderCard: React.FC = () => {
               >
                 {/* Duotone Layer Base (Emerald / Charcoal Filter) */}
                 <img
-                  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=800&auto=format&fit=crop"
-                  alt="Founder & Managing Director"
-                  className={`w-full h-full object-cover transition-all duration-1000 ${
-                    inFocus ? 'filter-none scale-105' : 'contrast-125 sepia-0 saturate-0 hue-rotate-90 brightness-90'
-                  }`}
-                  style={{
-                    filter: inFocus
-                      ? 'none'
-                      : 'grayscale(100%) sepia(30%) hue-rotate(110deg) saturate(300%) contrast(110%)',
-                  }}
+                  src="/swapna-raichur.jpg"
+                  alt="Founder & Chairman"
+                  className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
                 />
 
                 {/* Soft Focus Bloom Gradient Overlay */}

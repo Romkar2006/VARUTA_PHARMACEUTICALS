@@ -2,7 +2,6 @@ import React from 'react';
 import { Navbar } from '../components/layout/Navbar';
 import { Footer } from '../components/layout/Footer';
 import { LicenseMarquee } from '../components/home/LicenseMarquee';
-import { Link } from 'react-router-dom';
 import {
   Sparkles,
   ShieldCheck,
@@ -11,8 +10,6 @@ import {
   CheckCircle2,
   Atom,
   Quote,
-  FileText,
-  ArrowRight,
   Microscope,
   FlaskConical,
   Dna,
@@ -61,32 +58,32 @@ export const ResearchQualityPage: React.FC = () => {
     <div className="min-h-screen bg-white text-[#1c1c1e] selection:bg-[#0b835c] selection:text-white font-sans">
       <Navbar />
 
-      <main className="pt-28 pb-20">
+      <main className="pt-24 sm:pt-28 pb-20">
         {/* Page Hero Header */}
-        <section className="py-20 bg-gradient-to-b from-emerald-50/60 via-white to-white border-b border-[#eff1f6] text-left">
-          <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+        <section className="py-12 sm:py-20 bg-gradient-to-b from-emerald-50/60 via-white to-white border-b border-[#eff1f6] text-left">
+          <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 space-y-4 sm:space-y-6">
             <div>
-              <span className="tag-pill-green bg-white shadow-xs">
+              <span className="tag-pill-green glass-panel-light border-emerald-600/30 shadow-xs">
                 <Dna className="w-3.5 h-3.5 text-[#0b835c]" />
                 GENYURVED RESEARCH & QUALITY ASSURANCE
               </span>
             </div>
 
-            <h1 className="font-editorial-serif text-4xl sm:text-5xl lg:text-[62px] font-normal text-[#1c1c1e] leading-[1.12] tracking-tight max-w-4xl">
+            <h1 className="font-editorial-serif text-3xl sm:text-5xl lg:text-[62px] font-normal text-[#1c1c1e] leading-[1.14] sm:leading-[1.12] tracking-tight max-w-4xl">
               Where Botanical Wisdom Meets{' '}
               <span className="text-[#0b835c] italic font-normal">Molecular Precision.</span>
             </h1>
 
-            <p className="text-base sm:text-lg text-[#303033] font-medium leading-relaxed max-w-3xl">
+            <p className="text-sm sm:text-lg text-[#303033] font-medium leading-relaxed max-w-3xl">
               Varuta Pharma Pvt. Ltd. partners with licensed WHO-GMP manufacturing facilities (**Gencleus Pharma Pvt. Ltd.** & **Peptas Pharma Pvt. Ltd.**) to bridge classical botanical research with modern analytical assay testing.
             </p>
           </div>
         </section>
 
         {/* Lead Advisory Member Spotlight: Dr. Ramakrishna Aradhyula */}
-        <section className="py-24 bg-white border-b border-[#eff1f6] text-left">
+        <section className="py-12 sm:py-24 bg-white border-b border-[#eff1f6] text-left">
           <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="p-8 sm:p-12 rounded-[36px] bg-[#f8fafc] border border-slate-200/90 shadow-md relative overflow-hidden">
+            <div className="p-6 sm:p-12 rounded-[36px] glass-panel-light border border-[#0b835c]/20 shadow-md relative overflow-hidden">
               
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                 
@@ -260,35 +257,6 @@ export const ResearchQualityPage: React.FC = () => {
                 </div>
               </div>
 
-            </div>
-          </div>
-        </section>
-
-        {/* Mandatory Statutory FSSAI Disclosure Block */}
-        <section className="py-12 bg-white text-left">
-          <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="p-7 rounded-[28px] bg-[#1c1c1e] text-white flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-[#0b835c] text-white flex items-center justify-center flex-shrink-0 mt-1">
-                  <FileText className="w-5 h-5" />
-                </div>
-                <div className="space-y-1">
-                  <h4 className="text-sm font-bold text-white uppercase tracking-wider">
-                    MANDATORY STATUTORY REGULATORY DISCLOSURE
-                  </h4>
-                  <p className="text-xs text-slate-300 leading-relaxed max-w-3xl">
-                    Products marketed by <strong className="text-emerald-400">Varuta Pharma Pvt. Ltd.</strong> (FSSAI Lic. No. <strong className="text-emerald-400">13624999000034</strong>) are nutraceutical and food supplements manufactured by licensed WHO-GMP certified partners (Gencleus Pharma Pvt. Ltd. & Peptas Pharma Pvt. Ltd.). They are not intended to diagnose, treat, cure, or prevent any disease. Consult a registered medical practitioner before use.
-                  </p>
-                </div>
-              </div>
-
-              <Link
-                to="/contact"
-                className="btn-outline-pill border-white/30 text-white hover:bg-white hover:text-[#1c1c1e] text-xs py-2.5 px-5 whitespace-nowrap flex-shrink-0 flex items-center gap-1.5"
-              >
-                <span>Request Clinical Dossier</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
             </div>
           </div>
         </section>

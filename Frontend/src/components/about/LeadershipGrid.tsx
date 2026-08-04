@@ -20,7 +20,7 @@ const LEADERSHIP_TEAM: Leader[] = [
     period: '2021 - 2023',
     status: 'past',
     bio: 'Pioneered early bio-nutraceutical research frameworks and established initial clinical trial protocols for iron deficiency formulations.',
-    highlights: ['4 Decades Clinical Research Legacy', 'Lactoferrin Transport Studies'],
+    highlights: ['Bio-Nutraceutical Research Frameworks', 'Lactoferrin Transport Studies'],
   },
   {
     id: 'present-1',

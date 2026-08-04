@@ -60,11 +60,11 @@ export const HeroSection: React.FC = () => {
               </a>
 
               <Link
-                to="/products/iron-immunity/guanolact"
+                to="/products/womens-health/cystorin"
                 className="btn-outline-pill flex items-center gap-2"
               >
                 <ShieldCheck className="w-4 h-4 text-[#0b835c]" />
-                <span>View Guanolact Lead SKU</span>
+                <span>View CYSTORIN Lead SKU</span>
               </Link>
             </div>
 

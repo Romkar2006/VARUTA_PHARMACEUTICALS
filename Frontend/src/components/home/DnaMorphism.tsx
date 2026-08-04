@@ -114,7 +114,7 @@ export const DnaMorphism: React.FC = () => {
       <div className="absolute bottom-6 left-6 z-20 card-mist p-3.5 rounded-xl border border-slate-200/80 max-w-[240px] shadow-sm">
         <span className="clinical-label text-[10px] block mb-1">BIOLOGICAL PRECISION</span>
         <p className="text-xs text-[#303033] font-medium leading-snug">
-          4 Decades of Bio-Ingredient Research & Cellular Nutrient Transport Optimization.
+          Pioneering Bio-Ingredient Research & Cellular Nutrient Transport Optimization.
         </p>
       </div>
     </div>

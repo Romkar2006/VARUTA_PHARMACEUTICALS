@@ -82,7 +82,7 @@ export const AboutPreview: React.FC = () => {
               return (
                 <div
                   key={pillar.num}
-                  className="card-mist p-6 rounded-[24px] bg-white border border-slate-200/90 shadow-xs hover:border-[#0b835c]/40 hover:scale-[1.02] transition-all duration-300 group"
+                  className="glass-panel-light p-6 rounded-[24px] border border-slate-200/90 shadow-xs hover:border-[#0b835c]/40 hover:scale-[1.02] transition-all duration-300 group text-left"
                 >
                   <div className="flex items-center justify-between mb-4">
                     <div className="w-10 h-10 rounded-xl bg-[#eff1f6] text-[#0b835c] flex items-center justify-center group-hover:bg-[#0b835c] group-hover:text-white transition-colors">

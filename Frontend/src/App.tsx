@@ -8,6 +8,8 @@ import { ResearchQualityPage } from './pages/ResearchQualityPage';
 import { BlogsPage } from './pages/BlogsPage';
 import { BlogDetailPage } from './pages/BlogDetailPage';
 import { ContactPage } from './pages/ContactPage';
+import { FutureScopesPage } from './pages/FutureScopesPage';
+import { MobileBottomNav } from './components/layout/MobileBottomNav';
 
 export const App: React.FC = () => {
   return (
@@ -19,6 +21,10 @@ export const App: React.FC = () => {
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/products/:sector/:sku" element={<ProductDetailPage />} />
         <Route path="/products/:sku" element={<ProductDetailPage />} />
+        <Route path="/product/:sector/:sku" element={<ProductDetailPage />} />
+        <Route path="/product/:sku" element={<ProductDetailPage />} />
+        <Route path="/future-scopes" element={<FutureScopesPage />} />
+        <Route path="/future-scope" element={<FutureScopesPage />} />
         <Route path="/research-and-quality" element={<ResearchQualityPage />} />
         <Route path="/research" element={<ResearchQualityPage />} />
         <Route path="/blogs" element={<BlogsPage />} />
@@ -26,6 +32,7 @@ export const App: React.FC = () => {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="*" element={<HomePage />} />
       </Routes>
+      <MobileBottomNav />
     </Router>
   );
 };
