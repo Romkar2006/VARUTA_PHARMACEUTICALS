@@ -213,6 +213,7 @@ export const Footer: React.FC = () => {
                 { label: 'ESTROCLEN', desc: 'Oestrogen Balance', path: '/products/womens-health/estroclen' },
                 { label: 'QUICKNAP', desc: 'Sleep Film', path: '/products/sleep-recovery/quicknap' },
                 { label: 'CYSTORIN', desc: 'PCOS Support', path: '/products/womens-health/cystorin' },
+                { label: 'FERTISCOPE', desc: 'Ovulation Scope', path: '/products/womens-health/fertiscope' },
                 { label: 'FATEASE-5', desc: 'Weight Mgmt', path: '/products/weight-management/fatease-5' },
                 { label: 'TELAGE', desc: 'Cellular Support', path: '/products/cellular-longevity/telage' },
               ].map((item) => (
