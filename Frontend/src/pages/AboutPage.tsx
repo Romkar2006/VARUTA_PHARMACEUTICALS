@@ -78,12 +78,12 @@ export const AboutPage: React.FC = () => {
       name: 'Ms. Swapna Raichur',
       role: 'Managing Director',
       period: 'Executive Leadership',
-      bio: 'Founder and Chairman of Varuta Pharma Pvt. Ltd. Driving strategic vision, corporate governance, and institutional growth across pharmaceutical and nutraceutical sectors.',
+      bio: "Managing Director of Varuta Pharma Pvt. Ltd. with over a decade of deep expertise in pharmaceutical supply chain management, distribution network strategy, and market operations. Ms. Swapna Raichur has been instrumental in building and scaling Varuta's commercial infrastructure—from optimizing end-to-end supply chain logistics and channel distribution across domestic markets to spearheading international business pipeline development and export operations across regulated and emerging markets.",
       image: '/swapna-raichur.jpg',
       achievements: [
-        'Established Varuta Pharma Pvt. Ltd. with a mandate for evidence-based healthcare innovation.',
-        'Steered corporate vision, regulatory compliance, and strategic brand governance.',
-        'Built strategic alliances with licensed WHO-GMP manufacturing infrastructure.',
+        'Over 10+ years of hands-on leadership in pharmaceutical supply chain optimization, distribution network architecture, and market channel strategy across India.',
+        'Led international business pipeline development and export operations, establishing Varuta Pharma\'s presence in global pharmaceutical markets.',
+        'Architected scalable distribution frameworks connecting WHO-GMP manufacturing partners to doctor-channel prescribing networks and institutional buyers.',
       ],
       linkedinUrl: 'https://www.linkedin.com/company/varuta-pharma-pvt-ltd',
       emailUrl: 'mailto:contact@varutapharmaceuticals.com',
@@ -109,9 +109,9 @@ export const AboutPage: React.FC = () => {
     {
       id: 'naval-kishore',
       name: 'Dr. Naval Kishore Sarda',
-      role: 'Former Operations Head',
+      role: 'Former Executive Director',
       period: 'Past Operations Leadership',
-      bio: 'Former Operations Head at Varuta Pharma Pvt. Ltd. Brought extensive leadership in pharmaceutical manufacturing operations, WHO-GMP facility coordination, quality control, and supply chain logistics.',
+      bio: 'Former Executive Director at Varuta Pharma Pvt. Ltd. Brought extensive leadership in pharmaceutical manufacturing operations, WHO-GMP facility coordination, quality control, and supply chain logistics.',
       image: '/naval-kishore.jpg',
       achievements: [
         'Spearheaded pharmaceutical manufacturing operations and supply chain logistics across licensed WHO-GMP partner facilities.',
