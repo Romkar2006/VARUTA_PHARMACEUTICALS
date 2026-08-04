@@ -24,20 +24,20 @@ export const Navbar: React.FC = () => {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-200">
-      {/* Top Announcement Banner (Responsive layout on mobile) */}
-      <div className="bg-[#0b835c] text-white text-xs py-1.5 px-4 font-medium">
-        <div className="max-w-[1200px] mx-auto flex flex-col sm:flex-row justify-between items-center gap-1 sm:gap-4">
-          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 sm:gap-6 text-[11px] sm:text-xs">
+      {/* Top Announcement Banner (Hidden on mobile, visible on desktop) */}
+      <div className="hidden md:block bg-[#0b835c] text-white text-xs py-1.5 px-4 font-medium">
+        <div className="max-w-[1200px] mx-auto flex flex-row justify-between items-center gap-4">
+          <div className="flex items-center gap-6 text-xs">
             <a href="mailto:contact@varutapharmaceuticals.com" className="flex items-center gap-1.5 hover:text-emerald-200 transition-colors">
               <Mail className="w-3.5 h-3.5 text-emerald-200 flex-shrink-0" />
-              <span className="truncate max-w-[200px] sm:max-w-none">contact@varutapharmaceuticals.com</span>
+              <span>contact@varutapharmaceuticals.com</span>
             </a>
             <a href="tel:+919985553875" className="flex items-center gap-1.5 hover:text-emerald-200 transition-colors">
               <Phone className="w-3.5 h-3.5 text-emerald-200 flex-shrink-0" />
               <span>+91 9985553875</span>
             </a>
           </div>
-          <div className="hidden md:flex items-center gap-4 text-[11px] tracking-wide">
+          <div className="flex items-center gap-4 text-[11px] tracking-wide">
             <span className="font-semibold text-emerald-100 uppercase">FSSAI Marketer Lic.: 13624999000034</span>
             <span className="opacity-40">|</span>
             <span className="font-editorial-serif italic text-emerald-100">"Born for Generations..."</span>

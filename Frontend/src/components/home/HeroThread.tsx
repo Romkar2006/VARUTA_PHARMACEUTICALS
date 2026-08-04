@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
-import { ArrowRight, Dna, ShieldCheck, Sparkles } from 'lucide-react';
+import { ArrowRight, Dna, ShieldCheck } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const N = 1200; // Refined particle count for crisp performance & elegance
@@ -335,13 +335,7 @@ export const HeroThread: React.FC = () => {
           {/* Left Column (7 cols): Editorial Content */}
           <div className="lg:col-span-7 space-y-6 text-left">
             
-            {/* Announcement Tag Pill */}
-            <div>
-              <span className="tag-pill-green">
-                <Sparkles className="w-3.5 h-3.5 text-[#0b835c]" />
-                BORN FOR GENERATIONS…
-              </span>
-            </div>
+
 
             {/* Editorial Headline */}
             <h1 className="font-editorial-serif text-4xl sm:text-5xl lg:text-[62px] font-normal leading-[1.12] tracking-tight text-[#1c1c1e]">

@@ -5,7 +5,6 @@ import { Navbar } from '../components/layout/Navbar';
 import { Footer } from '../components/layout/Footer';
 import { 
   Heart, 
-  Sparkles, 
   ArrowRight, 
   ChevronRight,
   Activity,
@@ -77,10 +76,7 @@ export const FutureScopesPage: React.FC = () => {
               <span>Future Scopes & R&D Horizons</span>
             </div>
 
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-100/80 border border-emerald-300 text-emerald-800 text-xs font-bold tracking-wide">
-              <span className="w-2 h-2 rounded-full bg-[#0b835c] animate-ping" />
-              <span>R&D PIPELINE 2026–2028</span>
-            </div>
+
           </div>
 
           {/* Page Title & Mission Headline */}
@@ -115,10 +111,7 @@ export const FutureScopesPage: React.FC = () => {
           </div>
 
           <div className="relative z-10 max-w-3xl space-y-6">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-xs font-semibold uppercase tracking-wider">
-              <Sparkles className="w-3.5 h-3.5 text-emerald-300 animate-spin" />
-              <span>R&D Pipeline Announcement</span>
-            </div>
+
 
             <h2 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-white leading-tight">
               Future Products Will Be Listed Soon

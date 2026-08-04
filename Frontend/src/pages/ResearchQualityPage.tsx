@@ -3,7 +3,6 @@ import { Navbar } from '../components/layout/Navbar';
 import { Footer } from '../components/layout/Footer';
 import { LicenseMarquee } from '../components/home/LicenseMarquee';
 import {
-  Sparkles,
   ShieldCheck,
   Award,
   Building2,
@@ -12,7 +11,6 @@ import {
   Quote,
   Microscope,
   FlaskConical,
-  Dna,
 } from 'lucide-react';
 
 export const ResearchQualityPage: React.FC = () => {
@@ -62,12 +60,7 @@ export const ResearchQualityPage: React.FC = () => {
         {/* Page Hero Header */}
         <section className="py-12 sm:py-20 bg-gradient-to-b from-emerald-50/60 via-white to-white border-b border-[#eff1f6] text-left">
           <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 space-y-4 sm:space-y-6">
-            <div>
-              <span className="tag-pill-green glass-panel-light border-emerald-600/30 shadow-xs">
-                <Dna className="w-3.5 h-3.5 text-[#0b835c]" />
-                GENYURVED RESEARCH & QUALITY ASSURANCE
-              </span>
-            </div>
+
 
             <h1 className="font-editorial-serif text-3xl sm:text-5xl lg:text-[62px] font-normal text-[#1c1c1e] leading-[1.14] sm:leading-[1.12] tracking-tight max-w-4xl">
               Where Botanical Wisdom Meets{' '}
@@ -113,12 +106,7 @@ export const ResearchQualityPage: React.FC = () => {
 
                 {/* Right Column (7 cols): Credentials & Quote */}
                 <div className="lg:col-span-7 space-y-6">
-                  <div>
-                    <span className="tag-pill-green bg-white shadow-xs">
-                      <Sparkles className="w-3.5 h-3.5 text-[#0b835c]" />
-                      SCIENTIFIC DIRECTION
-                    </span>
-                  </div>
+
 
                   <div>
                     <h2 className="font-editorial-serif text-3xl sm:text-4xl text-[#1c1c1e] font-normal tracking-tight">

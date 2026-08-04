@@ -76,13 +76,7 @@ export const FloatingCardsHero: React.FC = () => {
           {/* ========================================================================= */}
           <div className="lg:col-span-6 space-y-6">
             
-            {/* Announcement Pill */}
-            <div>
-              <span className="tag-pill-green flex items-center gap-2 w-fit shadow-xs bg-white/90 backdrop-blur-md">
-                <span className="w-2 h-2 rounded-full bg-[#0b835c] animate-pulse" />
-                BORN FOR GENERATIONS…
-              </span>
-            </div>
+
 
             {/* Main Headline */}
             <h1 className="font-editorial-serif text-4xl sm:text-5xl lg:text-[62px] font-normal leading-[1.12] tracking-tight text-[#1c1c1e]">

@@ -6,7 +6,6 @@ import { BLOGS_DATABASE } from '../data/blogsData';
 import {
   Clock,
   ArrowRight,
-  BookOpen,
   UserCheck,
   Filter,
   Search,
@@ -196,16 +195,7 @@ export const BlogsPage: React.FC = () => {
           <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 space-y-6 text-left relative z-10">
             {/* Top Toolbar Bar */}
             <div className="flex flex-wrap items-center justify-between gap-4">
-              <span
-                className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase border ${
-                  isDark
-                    ? 'bg-emerald-950/60 text-emerald-400 border-emerald-800/50'
-                    : 'bg-emerald-100/80 text-[#0b835c] border-emerald-200'
-                }`}
-              >
-                <BookOpen className="w-3.5 h-3.5" />
-                VARUTA CLINICAL & PHYTO-THERAPEUTIC RESEARCH HUB
-              </span>
+
 
               {/* Theme & Reading Mode Switcher */}
               <div className="flex items-center gap-3">

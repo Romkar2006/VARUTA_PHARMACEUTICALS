@@ -9,7 +9,6 @@ import {
   Building2,
   CheckCircle2,
   Send,
-  Sparkles,
   Globe,
   Navigation,
   Copy,
@@ -183,10 +182,7 @@ export const ContactPage: React.FC = () => {
               transition={{ duration: 0.6 }}
               className="space-y-4 max-w-4xl"
             >
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-[#0b835c]/30 text-[#0b835c] text-xs font-semibold tracking-wider uppercase shadow-xs">
-                <Sparkles className="w-3.5 h-3.5 animate-pulse text-[#0b835c]" />
-                VARUTA PHARMA PVT. LTD. CORPORATE COMMUNICATIONS
-              </div>
+
 
               <h1 className="font-editorial-serif text-4xl sm:text-6xl lg:text-[64px] font-normal text-[#1c1c1e] leading-[1.1] tracking-tight">
                 Connect with Our <br className="hidden sm:inline" />

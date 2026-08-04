@@ -7,7 +7,6 @@ import { PRODUCTS_CATALOG } from '../data/productsData';
 import type { ProductSKU, ProductVariant } from '../data/productsData';
 import { BLOGS_DATABASE } from '../data/blogsData';
 import {
-  Sparkles,
   CheckCircle2,
   ArrowLeft,
   ShieldCheck,
@@ -289,17 +288,6 @@ export const ProductDetailPage: React.FC = () => {
                 {/* Main Selected Photo Viewport */}
                 <div className="bg-gradient-to-br from-[#f8fafc] via-white to-[#f4f7f5] p-5 sm:p-6 rounded-[36px] border border-slate-200/90 shadow-lg relative overflow-hidden group">
                   
-                  {/* Badges Overlay */}
-                  <div className="flex items-center justify-between mb-3 relative z-10">
-                    <span className="px-3 py-1 rounded-full bg-[#0b835c] text-white text-[11px] font-bold tracking-wider uppercase shadow-xs">
-                      {sku.badge}
-                    </span>
-                    <span className="text-xs font-bold text-[#0b835c] flex items-center gap-1 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200/80">
-                      <Sparkles className="w-3.5 h-3.5 text-[#0b835c]" />
-                      {sku.evidenceGrade}
-                    </span>
-                  </div>
-
                   {/* Active Main Product Photo */}
                   <div
                     onClick={() => openLightbox(selectedImageIndex)}
@@ -322,11 +310,6 @@ export const ProductDetailPage: React.FC = () => {
                     <div className="absolute bottom-4 right-4 z-10 px-3.5 py-1.5 rounded-full bg-[#1c1c1e]/85 backdrop-blur-md text-white text-[11px] font-semibold flex items-center gap-1.5 opacity-90 group-hover:opacity-100 group-hover:bg-[#0b835c] transition-all shadow-md">
                       <ZoomIn className="w-3.5 h-3.5 text-emerald-300 animate-pulse" />
                       <span>Full Zoom Inspect</span>
-                    </div>
-
-                    {/* Angle View Tag */}
-                    <div className="absolute top-4 left-4 z-10 px-3 py-1 rounded-xl bg-white/90 backdrop-blur-md text-slate-800 text-[11px] font-bold border border-slate-200/80 shadow-xs">
-                      {getAngleLabel(selectedImageIndex)}
                     </div>
                   </div>
 
@@ -458,68 +441,45 @@ export const ProductDetailPage: React.FC = () => {
                   </button>
 
                   {sku.dossier ? (
-                    <div className="p-5 rounded-[28px] bg-gradient-to-br from-slate-900 via-[#0a2e23] to-emerald-950 text-white border border-emerald-500/40 shadow-xl space-y-4 text-left">
-                      <div className="flex items-center justify-between">
-                        <span className="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-bold uppercase tracking-wider border border-emerald-400/40 flex items-center gap-1.5">
-                          <FileText className="w-3.5 h-3.5" />
-                          PEER-REVIEWED CLINICAL LITERATURE
-                        </span>
-                        <span className="text-[11px] font-mono font-bold text-slate-300 bg-white/10 px-2.5 py-0.5 rounded-md">
-                          {sku.dossier.fileType} · {sku.dossier.fileSize}
-                        </span>
-                      </div>
+                    <div className="flex items-center justify-between gap-3">
+                      <button
+                        onClick={() => handleDownloadDossier(sku.dossier!.fileUrl, sku.dossier!.fileName)}
+                        className="flex-1 py-3.5 px-5 rounded-2xl bg-emerald-400 hover:bg-emerald-300 text-emerald-950 text-xs font-extrabold flex items-center justify-center gap-2 transition-all shadow-md hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                      >
+                        <Download className="w-4 h-4" />
+                        <span>Download & Read Clinical Dossier</span>
+                      </button>
 
-                      <div>
-                        <h4 className="text-sm font-bold text-white leading-snug">
-                          {sku.dossier.title}
-                        </h4>
-                        <p className="text-[11px] text-slate-300 font-medium mt-1 leading-relaxed line-clamp-2">
-                          {sku.dossier.citation}
-                        </p>
-                      </div>
-
-                      <div className="pt-2 flex items-center justify-between gap-3">
+                      <button
+                        onClick={handleCopyPageLink}
+                        className="p-3.5 rounded-2xl bg-[#1c1c1e] hover:bg-[#0b835c] border border-slate-200 text-white transition-all cursor-pointer shadow-sm flex items-center justify-center"
+                        title="Share Product Link"
+                      >
+                        {copiedLink ? <Check className="w-4 h-4 text-emerald-400" /> : <Share2 className="w-4 h-4" />}
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between gap-3">
                         <button
-                          onClick={() => handleDownloadDossier(sku.dossier!.fileUrl, sku.dossier!.fileName)}
-                          className="flex-1 py-3 px-5 rounded-2xl bg-emerald-400 hover:bg-emerald-300 text-emerald-950 text-xs font-extrabold flex items-center justify-center gap-2 transition-all shadow-lg hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                          disabled
+                          className="flex-1 py-3.5 px-5 rounded-2xl bg-slate-100 border border-slate-200 text-slate-400 text-xs font-bold flex items-center justify-center gap-2 cursor-not-allowed opacity-90"
                         >
-                          <Download className="w-4 h-4" />
-                          <span>Download & Read Clinical Dossier</span>
+                          <Download className="w-4 h-4 text-slate-400" />
+                          <span>Clinical Dossier (Updating Soon)</span>
                         </button>
 
                         <button
                           onClick={handleCopyPageLink}
-                          className="p-3 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/15 text-white transition-all cursor-pointer"
+                          className="p-3.5 rounded-2xl bg-[#1c1c1e] hover:bg-[#0b835c] border border-slate-200 text-white transition-all cursor-pointer shadow-sm flex items-center justify-center"
                           title="Share Product Link"
                         >
                           {copiedLink ? <Check className="w-4 h-4 text-emerald-400" /> : <Share2 className="w-4 h-4" />}
                         </button>
                       </div>
-                    </div>
-                  ) : (
-                    <div className="p-5 rounded-[28px] bg-slate-50 border border-slate-200/90 space-y-3 text-left">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-bold text-[#0b835c] uppercase tracking-wider bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
-                          MEDICAL BOARD CLINICAL REQUEST
-                        </span>
-                        <button
-                          onClick={handleCopyPageLink}
-                          className="p-2 rounded-xl bg-white border border-slate-200 text-slate-600 hover:text-[#0b835c] transition-all cursor-pointer"
-                          title="Share Product Link"
-                        >
-                          {copiedLink ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Share2 className="w-3.5 h-3.5" />}
-                        </button>
-                      </div>
-                      <p className="text-xs text-slate-600 font-medium leading-relaxed">
-                        Official clinical dossier and trial literature for <strong>{sku.title}</strong> can be requested directly from our Medical Affairs Board.
+                      <p className="text-[11px] text-slate-500 font-medium text-center">
+                        Clinical reports and dossier for this product will be updated soon.
                       </p>
-                      <button
-                        onClick={() => navigate(`/contact?topic=${sku.slug}`)}
-                        className="w-full py-3 px-4 rounded-xl bg-[#1c1c1e] hover:bg-[#0b835c] text-white text-xs font-bold flex items-center justify-center gap-2 transition-all cursor-pointer shadow-xs"
-                      >
-                        <FileText className="w-4 h-4 text-emerald-300" />
-                        <span>Request Clinical Dossier via Medical Board</span>
-                      </button>
                     </div>
                   )}
                 </div>

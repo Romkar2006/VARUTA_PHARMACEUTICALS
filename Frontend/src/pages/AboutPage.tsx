@@ -5,7 +5,6 @@ import Globe from '../components/originkit/Globe';
 import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
 import {
   ShieldCheck,
-  Dna,
   UserCheck,
   Sparkles,
   X,
@@ -15,7 +14,6 @@ import {
   Award,
   FlaskConical,
   Stethoscope,
-  Activity,
   CheckCircle2,
 } from 'lucide-react';
 
@@ -380,10 +378,7 @@ export const AboutPage: React.FC = () => {
               transition={{ duration: 0.5 }}
               className="space-y-3"
             >
-              <span className="tag-pill-green bg-white shadow-xs">
-                <Dna className="w-3.5 h-3.5 text-[#0b835c]" />
-                ABOUT VARUTA PHARMA PVT. LTD.
-              </span>
+
 
               <h2 className="font-editorial-serif text-3xl sm:text-4xl lg:text-[46px] text-[#1c1c1e] font-normal leading-tight tracking-tight">
                 Innovation-Driven <span className="text-[#0b835c] italic font-normal">Healthcare Solutions</span>
@@ -618,10 +613,7 @@ export const AboutPage: React.FC = () => {
           <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 space-y-16 relative z-10">
             
             <div className="text-center max-w-2xl mx-auto space-y-3">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-[#0b835c]/30 text-[#0b835c] text-xs font-bold uppercase tracking-wider">
-                <Activity className="w-3.5 h-3.5 text-[#0b835c] animate-pulse" />
-                CORPORATE MILESTONE STRAND
-              </div>
+
               <h2 className="font-editorial-serif text-3xl sm:text-4xl lg:text-[44px] text-[#1c1c1e] font-normal leading-tight tracking-tight">
                 The Varuta <span className="text-[#0b835c] italic font-normal">Journey</span>
               </h2>

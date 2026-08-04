@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShieldCheck, Award, Building2, CheckCircle2, Dna } from 'lucide-react';
+import { ShieldCheck, Award, Building2, CheckCircle2 } from 'lucide-react';
 
 export const AboutPreview: React.FC = () => {
   const pillars = [
@@ -37,12 +37,7 @@ export const AboutPreview: React.FC = () => {
           
           {/* Left Column (6 cols): Brand Story */}
           <div className="lg:col-span-6 space-y-6">
-            <div>
-              <span className="tag-pill-green bg-white shadow-xs">
-                <Dna className="w-3.5 h-3.5 text-[#0b835c]" />
-                OUR SCIENTIFIC HERITAGE
-              </span>
-            </div>
+
 
             <h2 className="font-editorial-serif text-3xl sm:text-4xl lg:text-[46px] text-[#1c1c1e] font-normal leading-tight tracking-tight">
               Born for Generations…{' '}

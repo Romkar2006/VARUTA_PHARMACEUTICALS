@@ -12,12 +12,7 @@ export const HeroSection: React.FC = () => {
           {/* Left Column: Editorial Headline & Positioning */}
           <div className="lg:col-span-7 space-y-6 text-left">
             
-            {/* Grove AI Announcement Pill */}
-            <div>
-              <span className="tag-pill-green">
-                BORN FOR GENERATIONS…
-              </span>
-            </div>
+
 
             {/* Signature Hero Headline in Libre Caslon Text with single Forest Grove Green word */}
             <h1 className="font-editorial-serif text-4xl sm:text-6xl lg:text-[68px] font-normal leading-[1.15] tracking-tight text-[#1c1c1e]">

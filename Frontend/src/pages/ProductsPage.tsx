@@ -98,10 +98,7 @@ export const ProductsPage: React.FC = () => {
           {/* Page Hero Header */}
           <section className="pt-12 sm:pt-16 pb-8">
             <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 text-[#0b835c] border border-emerald-200 text-xs font-semibold">
-                <span className="w-2 h-2 rounded-full bg-[#0b835c] animate-pulse" />
-                <span>STANDARDIZED NUTRACEUTICAL PORTFOLIO</span>
-              </div>
+
 
               <h1 className="font-editorial-serif text-3xl sm:text-5xl lg:text-[56px] font-normal text-[#1c1c1e] leading-[1.14] tracking-tight max-w-4xl">
                 7 Standardized Bio-Nutraceutical{' '}
