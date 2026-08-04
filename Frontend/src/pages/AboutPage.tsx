@@ -56,12 +56,12 @@ export const AboutPage: React.FC = () => {
     { label: 'LOCATIONS', val: 'Pune & Hyd', sub: 'Dual Office Network' },
     { label: 'STANDARDS', val: 'WHO-GMP', sub: 'Partnered Facilities' },
   ];
-
+   
   const currentBoardMembers: BoardMember[] = [
     {
       id: 'venkatesh-raichur',
       name: 'Mr. Venkatesh Raichur',
-      role: 'CEO & Managing Director',
+      role: 'Founder & Chairman',
       period: 'Executive Leadership',
       bio: "With over three decades of distinguished leadership across India's premier pharmaceutical enterprises—including Elite Drug House, NATCO Pharma, Cadila Pharmaceuticals, and Abbott Healthcare—Mr. Venkatesh Raichur brings comprehensive commercial and strategic expertise to Varuta Pharma. Having served as Zonal Head of South India at NATCO Pharma, his experience spans the complete commercial value chain: driving sales & marketing excellence, business development, portfolio commercialization, enterprise transformation, and expansion into emerging international markets.",
       image: '/venkatesh-raichur.jpg',
@@ -76,7 +76,7 @@ export const AboutPage: React.FC = () => {
     {
       id: 'swapna-raichur',
       name: 'Ms. Swapna Raichur',
-      role: 'Founder & Chairman',
+      role: 'Managing Director',
       period: 'Executive Leadership',
       bio: 'Founder and Chairman of Varuta Pharma Pvt. Ltd. Driving strategic vision, corporate governance, and institutional growth across pharmaceutical and nutraceutical sectors.',
       image: '/swapna-raichur.jpg',
@@ -487,7 +487,7 @@ export const AboutPage: React.FC = () => {
                   >
                     <div className="space-y-4">
                       {/* Director Photo Frame */}
-                      <div className="w-full aspect-[3/4] rounded-[24px] overflow-hidden bg-slate-200 relative shadow-sm border border-slate-200/80">
+                      <div className="w-full aspect-3/4 rounded-[24px] overflow-hidden bg-slate-200 relative shadow-sm border border-slate-200/80">
                         <img
                           src={d.image}
                           alt={d.name}
@@ -559,7 +559,7 @@ export const AboutPage: React.FC = () => {
                   >
                     <div className="space-y-4">
                       {/* Director Photo Frame */}
-                      <div className="w-full aspect-[3/4] rounded-[24px] overflow-hidden bg-slate-200 relative shadow-sm border border-slate-200/80">
+                      <div className="w-full aspect-3/4 rounded-[24px] overflow-hidden bg-slate-200 relative shadow-sm border border-slate-200/80">
                         <img
                           src={d.image}
                           alt={d.name}
