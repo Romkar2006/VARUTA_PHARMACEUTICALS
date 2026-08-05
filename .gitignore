@@ -22,3 +22,8 @@ Thumbs.db
 
 # Vercel
 .vercel/
+
+# Heavy assets & agent configs
+ASSETS/
+docs/
+.agents/
