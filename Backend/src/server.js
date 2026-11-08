@@ -4,6 +4,7 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
+const doctorDataRoutes = require('./routes/doctorData');
 
 // Load environment variables
 dotenv.config();
@@ -19,6 +20,7 @@ app.use(helmet());
 app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:5173', credentials: true }));
 app.use(express.json());
 app.use(morgan('dev'));
+app.use('/api/doctors', doctorDataRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

@@ -70,6 +70,17 @@ export const ProductDetailPage: React.FC = () => {
   // Active Tab for Accordion & Modal States
   const [openAccordion, setOpenAccordion] = useState<string | null>('details');
   const [showDossierModal, setShowDossierModal] = useState<boolean>(false);
+  const [showDownloadDoctorModal, setShowDownloadDoctorModal] = useState<boolean>(false);
+  const [downloadDoctorForm, setDownloadDoctorForm] = useState({
+    fullName: '',
+    email: '',
+    phone: '',
+    address: '',
+    specialization: '',
+    consentGiven: false
+  });
+  const [downloadDoctorError, setDownloadDoctorError] = useState<string>('');
+  const [isSubmittingDownloadDoctor, setIsSubmittingDownloadDoctor] = useState<boolean>(false);
   const [copiedLink, setCopiedLink] = useState<boolean>(false);
   const [hcpFormSubmitted, setHcpFormSubmitted] = useState<boolean>(false);
 
@@ -168,16 +179,61 @@ export const ProductDetailPage: React.FC = () => {
     setTimeout(() => setCopiedLink(false), 2000);
   };
 
-  // Download Clinical Dossier & Open Pop-Up Confirmation Modal
-  const handleDownloadDossier = (dossierUrl: string, fileName: string) => {
-    const link = document.createElement('a');
-    link.href = dossierUrl;
-    link.download = fileName;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  // Download Clinical Dossier after the doctor profile is saved successfully.
+  const handleDownloadDossier = async () => {
+    setDownloadDoctorError('');
+    setShowDownloadDoctorModal(true);
+  };
 
-    setDownloadedDossierModal(true);
+  const submitDoctorDownload = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!sku.dossier) return;
+
+    setDownloadDoctorError('');
+    setIsSubmittingDownloadDoctor(true);
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/doctors/downloads`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            ...downloadDoctorForm,
+            productId: sku.id,
+            productTitle: sku.title,
+            fileName: sku.dossier.fileName,
+            fileUrl: sku.dossier.fileUrl
+          })
+        }
+      );
+
+      if (!response.ok) {
+        const errorBody = await response.json().catch(() => null);
+        throw new Error(errorBody?.message || 'Unable to save your details. Please try again.');
+      }
+
+      const link = document.createElement('a');
+      link.href = sku.dossier.fileUrl;
+      link.download = sku.dossier.fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      setShowDownloadDoctorModal(false);
+      setDownloadDoctorForm({
+        fullName: '',
+        email: '',
+        phone: '',
+        address: '',
+        specialization: '',
+        consentGiven: false
+      });
+      setDownloadedDossierModal(true);
+    } catch (error) {
+      setDownloadDoctorError(error instanceof Error ? error.message : 'Unable to save your details. Please try again.');
+    } finally {
+      setIsSubmittingDownloadDoctor(false);
+    }
   };
 
   // Toggle Accordion
@@ -443,7 +499,7 @@ export const ProductDetailPage: React.FC = () => {
                   {sku.dossier ? (
                     <div className="flex items-center justify-between gap-3">
                       <button
-                        onClick={() => handleDownloadDossier(sku.dossier!.fileUrl, sku.dossier!.fileName)}
+                        onClick={handleDownloadDossier}
                         className="flex-1 py-3.5 px-5 rounded-2xl bg-emerald-400 hover:bg-emerald-300 text-emerald-950 text-xs font-extrabold flex items-center justify-center gap-2 transition-all shadow-md hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
                       >
                         <Download className="w-4 h-4" />
@@ -1214,6 +1270,104 @@ export const ProductDetailPage: React.FC = () => {
       </AnimatePresence>
 
       {/* ========================================================================= */}
+      {/* DOCTOR DETAILS REQUIRED BEFORE DOWNLOAD */}
+      {/* ========================================================================= */}
+      <AnimatePresence>
+        {showDownloadDoctorModal && sku.dossier && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-white rounded-[32px] p-6 sm:p-8 max-w-lg w-full border border-slate-200 shadow-2xl relative"
+            >
+              <button
+                type="button"
+                onClick={() => setShowDownloadDoctorModal(false)}
+                className="absolute top-5 right-5 p-2 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 transition-colors cursor-pointer"
+                aria-label="Close download form"
+              >
+                <X className="w-4 h-4" />
+              </button>
+              <span className="px-3 py-1 rounded-full bg-emerald-100 text-[#0b835c] text-[10px] font-bold tracking-wider uppercase">
+                DOCTOR DETAILS REQUIRED
+              </span>
+              <h3 className="text-2xl font-bold text-[#1c1c1e] mt-2">Download Clinical Dossier</h3>
+              <p className="text-xs text-slate-500 mt-1 mb-5">
+                Please provide your details to access {sku.dossier.title}.
+              </p>
+
+              <form onSubmit={submitDoctorDownload} className="space-y-3.5">
+                <input
+                  type="text"
+                  required
+                  value={downloadDoctorForm.fullName}
+                  onChange={(event) => setDownloadDoctorForm({ ...downloadDoctorForm, fullName: event.target.value })}
+                  placeholder="Full name *"
+                  className="w-full px-4 py-3 rounded-xl bg-slate-50 text-xs border border-slate-200 focus:outline-none focus:border-[#0b835c]"
+                />
+                <input
+                  type="email"
+                  required
+                  value={downloadDoctorForm.email}
+                  onChange={(event) => setDownloadDoctorForm({ ...downloadDoctorForm, email: event.target.value })}
+                  placeholder="Email address *"
+                  className="w-full px-4 py-3 rounded-xl bg-slate-50 text-xs border border-slate-200 focus:outline-none focus:border-[#0b835c]"
+                />
+                <input
+                  type="tel"
+                  required
+                  value={downloadDoctorForm.phone}
+                  onChange={(event) => setDownloadDoctorForm({ ...downloadDoctorForm, phone: event.target.value })}
+                  placeholder="Phone number *"
+                  className="w-full px-4 py-3 rounded-xl bg-slate-50 text-xs border border-slate-200 focus:outline-none focus:border-[#0b835c]"
+                />
+                <textarea
+                  required
+                  value={downloadDoctorForm.address}
+                  onChange={(event) => setDownloadDoctorForm({ ...downloadDoctorForm, address: event.target.value })}
+                  placeholder="Address *"
+                  rows={2}
+                  className="w-full px-4 py-3 rounded-xl bg-slate-50 text-xs border border-slate-200 focus:outline-none focus:border-[#0b835c] resize-none"
+                />
+                <input
+                  type="text"
+                  required
+                  value={downloadDoctorForm.specialization}
+                  onChange={(event) => setDownloadDoctorForm({ ...downloadDoctorForm, specialization: event.target.value })}
+                  placeholder="Medical specialization *"
+                  className="w-full px-4 py-3 rounded-xl bg-slate-50 text-xs border border-slate-200 focus:outline-none focus:border-[#0b835c]"
+                />
+                <label className="flex items-start gap-2 text-[11px] text-slate-600 leading-relaxed">
+                  <input
+                    type="checkbox"
+                    required
+                    checked={downloadDoctorForm.consentGiven}
+                    onChange={(event) => setDownloadDoctorForm({ ...downloadDoctorForm, consentGiven: event.target.checked })}
+                    className="mt-0.5 accent-[#0b835c]"
+                  />
+                  <span>I agree that Varuta Pharma may store these details and contact me about relevant products and clinical information.</span>
+                </label>
+                {downloadDoctorError && (
+                  <p role="alert" className="text-xs text-red-600 bg-red-50 border border-red-200 rounded-xl px-3 py-2">
+                    {downloadDoctorError}
+                  </p>
+                )}
+                <button
+                  type="submit"
+                  disabled={isSubmittingDownloadDoctor}
+                  className="w-full py-3.5 rounded-2xl bg-[#0b835c] hover:bg-[#086849] disabled:opacity-60 text-white text-xs font-bold flex items-center justify-center gap-2 transition-all cursor-pointer shadow-md"
+                >
+                  <span>{isSubmittingDownloadDoctor ? 'Saving details...' : 'Submit & Download Dossier'}</span>
+                  <Download className="w-4 h-4 text-emerald-200" />
+                </button>
+              </form>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* ========================================================================= */}
       {/* HCP DOSSIER & SAMPLE PACK REQUEST MODAL */}
       {/* ========================================================================= */}
       <AnimatePresence>
@@ -1408,7 +1562,7 @@ export const ProductDetailPage: React.FC = () => {
                 </a>
 
                 <button
-                  onClick={() => handleDownloadDossier(sku.dossier!.fileUrl, sku.dossier!.fileName)}
+                  onClick={handleDownloadDossier}
                   className="px-5 py-3.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5"
                 >
                   <Download className="w-3.5 h-3.5" />

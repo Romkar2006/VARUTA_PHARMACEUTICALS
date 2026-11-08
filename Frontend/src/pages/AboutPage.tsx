@@ -94,8 +94,8 @@ export const AboutPage: React.FC = () => {
       name: 'Mr. Ashutosh Sharma',
       role: 'Former Executive Director',
       period: '4th July 2025 – 4th Dec 2025',
-      bio: "Over the past three decades, Mr. Ashutosh Sharma has held senior leadership positions with some of India's most respected pharmaceutical companies—including Zenith Drugs, Morepen Laboratories, NATCO Pharma, Cadila Pharmaceuticals, Torrent Pharmaceuticals, Abbott Healthcare, and Alembic. His experience spans the complete commercial value chain: sales & marketing, business development, portfolio commercialization, enterprise P&L leadership, business transformation, and international expansion across APAC, Africa, MENA, CIS, LATAM, and other emerging markets.",
-      image: '/ashutosh-sharma.jpg',
+      bio: "Over the past three decades, Mr. Ashutosh Sharma has held senior leadership positions with some of India's most respected pharmaceutical companies—including, Morepen Laboratories, NATCO Pharma, Cadila Pharmaceuticals, Torrent Pharmaceuticals, Abbott Healthcare, and Alembic. His experience spans the complete commercial value chain: sales & marketing, business development, portfolio commercialization, enterprise P&L leadership, business transformation, and international expansion across APAC, Africa, MENA, CIS, LATAM, and other emerging markets.",
+      image: '/ashutosh-sharma.png',
       achievements: [
         'Served as Executive Director at Varuta Pharma Pvt. Ltd., building the commercial foundation, operating framework, GTM strategy, and governance structure for domestic and international markets.',
         'Established a pilot pharmaceutical launch across four South Indian states while simultaneously building commercial, distribution & operating frameworks across West, Central, and East Africa.',
