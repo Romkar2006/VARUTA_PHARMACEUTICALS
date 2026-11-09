@@ -8,14 +8,15 @@ const getDoctorDossierEmail = ({
   productTitle,
   fileName,
   fileUrl,
-  clientUrl = 'https://varutapharmaceuticals.com'
+  clientUrl = 'https://varutapharmaceuticals.com',
+  backendUrl = 'https://varuta-pharmaceuticals.onrender.com'
 }) => {
   const fullDocumentUrl = fileUrl.startsWith('http')
     ? fileUrl
     : `${clientUrl.replace(/\/$/, '')}${fileUrl.startsWith('/') ? '' : '/'}${fileUrl}`;
 
-  // Hosted logo fallback
-  const logoUrl = `${clientUrl.replace(/\/$/, '')}/logo-email.png`;
+  // Hosted HTTPS logo URL (reliable across Gmail, Apple Mail, Outlook, mobile)
+  const logoUrl = `${backendUrl.replace(/\/$/, '')}/logo-email.png`;
 
   return `
 <!DOCTYPE html>
@@ -36,8 +37,10 @@ const getDoctorDossierEmail = ({
           
           <!-- OFFICIAL LOGO HEADER -->
           <tr>
-            <td align="center" style="padding: 28px 32px 22px 32px; background-color: #ffffff; border-bottom: 2px solid #0b835c;">
-              <img src="cid:varuta-logo" alt="Varuta Pharma - Born for Generations..." width="250" style="width: 250px; max-width: 100%; height: auto; display: block; margin: 0 auto;" onerror="this.onerror=null; this.src='${logoUrl}';" />
+            <td align="center" style="padding: 30px 32px 24px 32px; background-color: #ffffff; border-bottom: 2px solid #0b835c;">
+              <a href="${clientUrl}" target="_blank" style="text-decoration: none; display: inline-block;">
+                <img src="${logoUrl}" alt="Varuta Pharma - Born for Generations..." width="260" style="width: 260px; max-width: 100%; height: auto; display: block; margin: 0 auto; border: 0;" />
+              </a>
             </td>
           </tr>
 

@@ -3,6 +3,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const dotenv = require('dotenv');
+const path = require('path');
 const connectDB = require('./config/db');
 
 // Load environment variables
@@ -48,6 +49,19 @@ app.use(cors({
 
 app.use(express.json());
 app.use(morgan('dev'));
+
+// Serve static assets (such as logo-email.png and pdfs) over public HTTPS
+app.use(express.static(path.join(__dirname, '../public')));
+app.use('/public', express.static(path.join(__dirname, '../public')));
+
+// Root route
+app.get('/', (req, res) => {
+  res.json({
+    status: 'ok',
+    message: 'Varuta Pharma Backend API is running',
+    health: '/api/health'
+  });
+});
 
 // Support both /api/doctors and /doctors to avoid URL mismatch bugs
 app.use('/api/doctors', doctorDataRoutes);

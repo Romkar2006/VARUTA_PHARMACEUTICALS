@@ -108,7 +108,7 @@ router.post('/downloads', async (req, res) => {
       }
     }
 
-    // Attach official brand logo inline (cid:varuta-logo)
+    // Attach official brand logo inline (both camelCase contentId and snake_case content_id)
     const logoPaths = [
       path.join(__dirname, '../../public/logo-email.png'),
       path.join(__dirname, '../../../Frontend/public/logo-email.png'),
@@ -121,6 +121,7 @@ router.post('/downloads', async (req, res) => {
           attachments.push({
             filename: 'logo-email.png',
             content: logoBuffer,
+            contentId: 'varuta-logo',
             content_id: 'varuta-logo'
           });
           break;
@@ -143,6 +144,7 @@ router.post('/downloads', async (req, res) => {
     }
 
     const clientUrl = process.env.CLIENT_URL || 'https://varutapharmaceuticals.com';
+    const backendUrl = process.env.BACKEND_URL || 'https://varuta-pharmaceuticals.onrender.com';
 
     // Doctor Confirmation Email (Clean, simple, professional, with logo & attachment)
     const doctorEmailOptions = {
@@ -155,6 +157,7 @@ router.post('/downloads', async (req, res) => {
         fileName: cleanFileName,
         fileUrl: download.fileUrl,
         clientUrl,
+        backendUrl,
         downloadedAt: download.downloadedAt
       })
     };
