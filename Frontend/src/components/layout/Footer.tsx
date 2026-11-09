@@ -162,7 +162,7 @@ export const Footer: React.FC = () => {
 
                 {/* 4. Mail */}
                 <a
-                  href="mailto:manager@varutapharmaceuticals.com"
+                  href="mailto:rvshetty@varutapharmaceuticals.com"
                   className="group relative w-11 h-11 rounded-2xl bg-[#0a1f18] hover:bg-[#0b835c]/25 border border-slate-800 hover:border-emerald-400 flex items-center justify-center text-slate-300 hover:text-emerald-400 transition-all duration-300 shadow-md hover:shadow-lg hover:shadow-emerald-500/20 hover:-translate-y-1 cursor-pointer"
                   title="Medical Board Email (manager@varutapharmaceuticals.com)"
                   aria-label="Mail"
@@ -321,7 +321,7 @@ export const Footer: React.FC = () => {
               <div className="flex items-center justify-between text-xs p-2.5 rounded-xl bg-black/40 border border-emerald-500/15">
                 <div className="flex items-center gap-2 text-slate-300">
                   <Mail className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>contact@varutapharmaceuticals.com</span>
+                  <span>admin@varutapharmaceuticals.com</span>
                 </div>
                 <button
                   onClick={() => handleCopy('contact@varutapharmaceuticals.com', 'email')}
