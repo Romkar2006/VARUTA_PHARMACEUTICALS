@@ -1,13 +1,22 @@
 const express = require('express');
+const fs = require('fs');
+const path = require('path');
 const { Resend } = require('resend');
 const DoctorData = require('../models/DoctorData');
+const { getDoctorDossierEmail, getAdminNotificationEmail } = require('../utils/emailTemplates');
 
 const router = express.Router();
-const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
+
+const getResendClient = () => {
+  if (process.env.RESEND_API_KEY) {
+    return new Resend(process.env.RESEND_API_KEY);
+  }
+  return null;
+};
 
 const requiredFields = ['fullName', 'email', 'phone', 'address', 'specialization'];
 const escapeHtml = (value) =>
-  value.replace(/[&<>"']/g, (character) => ({
+  String(value).replace(/[&<>"']/g, (character) => ({
     '&': '&amp;',
     '<': '&lt;',
     '>': '&gt;',
@@ -40,10 +49,12 @@ router.post('/downloads', async (req, res) => {
     }
 
     const normalizedEmail = email.trim().toLowerCase();
+    const cleanFileName = fileName.trim();
+    const cleanProductTitle = productTitle.trim();
     const download = {
       productId: productId.trim(),
-      productTitle: productTitle.trim(),
-      fileName: fileName.trim(),
+      productTitle: cleanProductTitle,
+      fileName: cleanFileName,
       fileUrl: fileUrl.trim(),
       downloadedAt: new Date()
     };
@@ -54,9 +65,8 @@ router.post('/downloads', async (req, res) => {
       address: escapeHtml(address.trim()),
       specialization: escapeHtml(specialization.trim())
     };
-    const safeProductTitle = escapeHtml(productTitle.trim());
-    const safeFileName = escapeHtml(fileName.trim());
 
+    // Upsert doctor profile in MongoDB DOCTORS_DATA collection
     const doctor = await DoctorData.findOneAndUpdate(
       { email: normalizedEmail },
       {
@@ -72,54 +82,102 @@ router.post('/downloads', async (req, res) => {
       { new: true, upsert: true, runValidators: true, setDefaultsOnInsert: true }
     );
 
-    if (!resend || !process.env.MAIL_FROM || !process.env.ADMIN_EMAIL) {
-      console.error('Doctor download saved, but mail delivery is not configured.');
-      return res.status(503).json({ message: 'Your details were saved, but the notification service is not configured. Please contact support.' });
+    console.log(`[DoctorData] Saved download record for Dr. ${doctor.fullName} (${doctor.email}) - Product: ${cleanProductTitle}`);
+
+    // Check for document file on disk to attach to the email
+    const attachments = [];
+    const potentialPaths = [
+      path.join(__dirname, '../../public/pdf', cleanFileName),
+      path.join(__dirname, '../../../Frontend/public/pdf', cleanFileName),
+      path.join(process.cwd(), 'public/pdf', cleanFileName)
+    ];
+
+    for (const filePath of potentialPaths) {
+      if (fs.existsSync(filePath)) {
+        try {
+          const fileBuffer = fs.readFileSync(filePath);
+          attachments.push({
+            filename: cleanFileName,
+            content: fileBuffer
+          });
+          console.log(`[DoctorData] Found and attached document (${(fileBuffer.length / 1024).toFixed(1)} KB): ${cleanFileName}`);
+          break;
+        } catch (readErr) {
+          console.warn(`[DoctorData] Could not read attachment at ${filePath}:`, readErr.message);
+        }
+      }
     }
 
-    const emailDetails = {
-      from: process.env.MAIL_FROM,
-      to: [process.env.ADMIN_EMAIL],
-      subject: `New doctor dossier download: ${doctor.fullName}`,
-      html: `
-        <h2>New clinical dossier download</h2>
-        <p>A doctor submitted their details and downloaded a clinical document.</p>
-        <ul>
-          <li><strong>Name:</strong> ${safeDoctor.fullName}</li>
-          <li><strong>Email:</strong> ${safeDoctor.email}</li>
-          <li><strong>Phone:</strong> ${safeDoctor.phone}</li>
-          <li><strong>Address:</strong> ${safeDoctor.address}</li>
-          <li><strong>Specialization:</strong> ${safeDoctor.specialization}</li>
-          <li><strong>Product:</strong> ${safeProductTitle}</li>
-          <li><strong>Document:</strong> ${safeFileName}</li>
-          <li><strong>Downloaded at:</strong> ${download.downloadedAt.toISOString()}</li>
-        </ul>
-      `
-    };
+    const resend = getResendClient();
+    const isDevelopment = (process.env.NODE_ENV || 'development') === 'development';
 
-    const doctorConfirmation = {
+    if (!resend || !process.env.MAIL_FROM || !process.env.ADMIN_EMAIL) {
+      const msg = 'Doctor download saved, but mail delivery (RESEND_API_KEY/MAIL_FROM) is not configured.';
+      console.warn(`[DoctorData] ${msg}`);
+      if (!isDevelopment) {
+        return res.status(503).json({ message: 'Your details were saved, but the notification service is not configured. Please contact support.' });
+      }
+      return res.status(201).json({ id: doctor._id, warning: msg });
+    }
+
+    const clientUrl = process.env.CLIENT_URL || 'https://varutapharmaceuticals.com';
+
+    // Doctor Confirmation Email (Branded, Professional, with Quotes & Attachment)
+    const doctorEmailOptions = {
       from: process.env.MAIL_FROM,
       to: [doctor.email],
-      subject: `Your Varuta clinical dossier: ${productTitle.trim()}`,
-      html: `
-        <p>Dear ${safeDoctor.fullName},</p>
-        <p>Your clinical dossier download for <strong>${safeProductTitle}</strong> was recorded successfully.</p>
-        <p>Document: <strong>${safeFileName}</strong></p>
-        <p>Thank you for your interest in Varuta Pharma.</p>
-      `
+      subject: `Clinical Research Dossier: ${cleanProductTitle} | Varuta Pharma`,
+      html: getDoctorDossierEmail({
+        doctorName: doctor.fullName,
+        productTitle: cleanProductTitle,
+        fileName: cleanFileName,
+        fileUrl: download.fileUrl,
+        clientUrl,
+        downloadedAt: download.downloadedAt
+      })
     };
 
-    const [adminEmailResult, doctorEmailResult] = await Promise.all([
-      resend.emails.send(emailDetails),
-      resend.emails.send(doctorConfirmation)
-    ]);
+    if (attachments.length > 0) {
+      doctorEmailOptions.attachments = attachments;
+    }
 
-    if (adminEmailResult.error || doctorEmailResult.error) {
-      console.error('Doctor download saved, but one or more notification emails failed:', {
-        adminError: adminEmailResult.error,
-        doctorError: doctorEmailResult.error
-      });
-      return res.status(502).json({ message: 'Your details were saved, but the notification email could not be sent. Please try again.' });
+    // Admin Notification Alert Email
+    const adminEmailOptions = {
+      from: process.env.MAIL_FROM,
+      to: [process.env.ADMIN_EMAIL],
+      subject: `[Doctor Dossier Download] Dr. ${doctor.fullName} - ${cleanProductTitle}`,
+      html: getAdminNotificationEmail({
+        doctor,
+        productTitle: cleanProductTitle,
+        fileName: cleanFileName,
+        fileUrl: download.fileUrl,
+        clientUrl,
+        downloadedAt: download.downloadedAt
+      })
+    };
+
+    try {
+      const [adminEmailResult, doctorEmailResult] = await Promise.all([
+        resend.emails.send(adminEmailOptions),
+        resend.emails.send(doctorEmailOptions)
+      ]);
+
+      if (adminEmailResult.error || doctorEmailResult.error) {
+        console.error('[DoctorData] Resend email delivery issue:', {
+          adminError: adminEmailResult.error,
+          doctorError: doctorEmailResult.error
+        });
+        if (!isDevelopment) {
+          return res.status(502).json({ message: 'Your details were saved, but the notification email could not be sent. Please try again.' });
+        }
+      } else {
+        console.log(`[DoctorData] Successfully dispatched notification emails to Dr. ${doctor.email} and Admin ${process.env.ADMIN_EMAIL}`);
+      }
+    } catch (mailError) {
+      console.error('[DoctorData] Error executing Resend email dispatch:', mailError.message);
+      if (!isDevelopment) {
+        return res.status(502).json({ message: 'Your details were saved, but the notification email could not be sent. Please try again.' });
+      }
     }
 
     res.status(201).json({ id: doctor._id });
