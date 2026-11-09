@@ -79,7 +79,7 @@ router.post('/downloads', async (req, res) => {
         },
         $push: { downloadedDocuments: download }
       },
-      { new: true, upsert: true, runValidators: true, setDefaultsOnInsert: true }
+      { returnDocument: 'after', upsert: true, runValidators: true, setDefaultsOnInsert: true }
     );
 
     console.log(`[DoctorData] Saved download record for Dr. ${doctor.fullName} (${doctor.email}) - Product: ${cleanProductTitle}`);
@@ -100,10 +100,32 @@ router.post('/downloads', async (req, res) => {
             filename: cleanFileName,
             content: fileBuffer
           });
-          console.log(`[DoctorData] Found and attached document (${(fileBuffer.length / 1024).toFixed(1)} KB): ${cleanFileName}`);
+          console.log(`[DoctorData] Attached clinical document (${(fileBuffer.length / 1024).toFixed(1)} KB): ${cleanFileName}`);
           break;
         } catch (readErr) {
           console.warn(`[DoctorData] Could not read attachment at ${filePath}:`, readErr.message);
+        }
+      }
+    }
+
+    // Attach official brand logo inline (cid:varuta-logo)
+    const logoPaths = [
+      path.join(__dirname, '../../public/logo-email.png'),
+      path.join(__dirname, '../../../Frontend/public/logo-email.png'),
+      path.join(process.cwd(), 'public/logo-email.png')
+    ];
+    for (const lp of logoPaths) {
+      if (fs.existsSync(lp)) {
+        try {
+          const logoBuffer = fs.readFileSync(lp);
+          attachments.push({
+            filename: 'logo-email.png',
+            content: logoBuffer,
+            content_id: 'varuta-logo'
+          });
+          break;
+        } catch (e) {
+          console.warn('[DoctorData] Could not read logo:', e.message);
         }
       }
     }
@@ -122,11 +144,11 @@ router.post('/downloads', async (req, res) => {
 
     const clientUrl = process.env.CLIENT_URL || 'https://varutapharmaceuticals.com';
 
-    // Doctor Confirmation Email (Branded, Professional, with Quotes & Attachment)
+    // Doctor Confirmation Email (Clean, simple, professional, with logo & attachment)
     const doctorEmailOptions = {
       from: process.env.MAIL_FROM,
       to: [doctor.email],
-      subject: `Clinical Research Dossier: ${cleanProductTitle} | Varuta Pharma`,
+      subject: `Clinical Dossier: ${cleanProductTitle} - Varuta Pharma`,
       html: getDoctorDossierEmail({
         doctorName: doctor.fullName,
         productTitle: cleanProductTitle,
@@ -145,7 +167,7 @@ router.post('/downloads', async (req, res) => {
     const adminEmailOptions = {
       from: process.env.MAIL_FROM,
       to: [process.env.ADMIN_EMAIL],
-      subject: `[Doctor Dossier Download] Dr. ${doctor.fullName} - ${cleanProductTitle}`,
+      subject: `[New Doctor Download] Dr. ${doctor.fullName} - ${cleanProductTitle}`,
       html: getAdminNotificationEmail({
         doctor,
         productTitle: cleanProductTitle,
@@ -171,7 +193,7 @@ router.post('/downloads', async (req, res) => {
           return res.status(502).json({ message: 'Your details were saved, but the notification email could not be sent. Please try again.' });
         }
       } else {
-        console.log(`[DoctorData] Successfully dispatched notification emails to Dr. ${doctor.email} and Admin ${process.env.ADMIN_EMAIL}`);
+        console.log(`[DoctorData] Notification emails sent to Dr. ${doctor.email} and Admin ${process.env.ADMIN_EMAIL}`);
       }
     } catch (mailError) {
       console.error('[DoctorData] Error executing Resend email dispatch:', mailError.message);
