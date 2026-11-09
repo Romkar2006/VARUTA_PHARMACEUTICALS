@@ -1,9 +1,19 @@
 const express = require('express');
+const { Resend } = require('resend');
 const DoctorData = require('../models/DoctorData');
 
 const router = express.Router();
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 const requiredFields = ['fullName', 'email', 'phone', 'address', 'specialization'];
+const escapeHtml = (value) =>
+  value.replace(/[&<>"']/g, (character) => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  }[character]));
 
 router.post('/downloads', async (req, res) => {
   try {
@@ -37,6 +47,15 @@ router.post('/downloads', async (req, res) => {
       fileUrl: fileUrl.trim(),
       downloadedAt: new Date()
     };
+    const safeDoctor = {
+      fullName: escapeHtml(fullName.trim()),
+      email: escapeHtml(normalizedEmail),
+      phone: escapeHtml(phone.trim()),
+      address: escapeHtml(address.trim()),
+      specialization: escapeHtml(specialization.trim())
+    };
+    const safeProductTitle = escapeHtml(productTitle.trim());
+    const safeFileName = escapeHtml(fileName.trim());
 
     const doctor = await DoctorData.findOneAndUpdate(
       { email: normalizedEmail },
@@ -52,6 +71,56 @@ router.post('/downloads', async (req, res) => {
       },
       { new: true, upsert: true, runValidators: true, setDefaultsOnInsert: true }
     );
+
+    if (!resend || !process.env.MAIL_FROM || !process.env.ADMIN_EMAIL) {
+      console.error('Doctor download saved, but mail delivery is not configured.');
+      return res.status(503).json({ message: 'Your details were saved, but the notification service is not configured. Please contact support.' });
+    }
+
+    const emailDetails = {
+      from: process.env.MAIL_FROM,
+      to: [process.env.ADMIN_EMAIL],
+      subject: `New doctor dossier download: ${doctor.fullName}`,
+      html: `
+        <h2>New clinical dossier download</h2>
+        <p>A doctor submitted their details and downloaded a clinical document.</p>
+        <ul>
+          <li><strong>Name:</strong> ${safeDoctor.fullName}</li>
+          <li><strong>Email:</strong> ${safeDoctor.email}</li>
+          <li><strong>Phone:</strong> ${safeDoctor.phone}</li>
+          <li><strong>Address:</strong> ${safeDoctor.address}</li>
+          <li><strong>Specialization:</strong> ${safeDoctor.specialization}</li>
+          <li><strong>Product:</strong> ${safeProductTitle}</li>
+          <li><strong>Document:</strong> ${safeFileName}</li>
+          <li><strong>Downloaded at:</strong> ${download.downloadedAt.toISOString()}</li>
+        </ul>
+      `
+    };
+
+    const doctorConfirmation = {
+      from: process.env.MAIL_FROM,
+      to: [doctor.email],
+      subject: `Your Varuta clinical dossier: ${productTitle.trim()}`,
+      html: `
+        <p>Dear ${safeDoctor.fullName},</p>
+        <p>Your clinical dossier download for <strong>${safeProductTitle}</strong> was recorded successfully.</p>
+        <p>Document: <strong>${safeFileName}</strong></p>
+        <p>Thank you for your interest in Varuta Pharma.</p>
+      `
+    };
+
+    const [adminEmailResult, doctorEmailResult] = await Promise.all([
+      resend.emails.send(emailDetails),
+      resend.emails.send(doctorConfirmation)
+    ]);
+
+    if (adminEmailResult.error || doctorEmailResult.error) {
+      console.error('Doctor download saved, but one or more notification emails failed:', {
+        adminError: adminEmailResult.error,
+        doctorError: doctorEmailResult.error
+      });
+      return res.status(502).json({ message: 'Your details were saved, but the notification email could not be sent. Please try again.' });
+    }
 
     res.status(201).json({ id: doctor._id });
   } catch (error) {

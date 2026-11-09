@@ -192,20 +192,18 @@ export const ProductDetailPage: React.FC = () => {
     setDownloadDoctorError('');
     setIsSubmittingDownloadDoctor(true);
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/doctors/downloads`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            ...downloadDoctorForm,
-            productId: sku.id,
-            productTitle: sku.title,
-            fileName: sku.dossier.fileName,
-            fileUrl: sku.dossier.fileUrl
-          })
-        }
-      );
+      const apiBaseUrl = (import.meta.env.VITE_API_URL || '/api').replace(/\/$/, '');
+      const response = await fetch(`${apiBaseUrl}/doctors/downloads`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...downloadDoctorForm,
+          productId: sku.id,
+          productTitle: sku.title,
+          fileName: sku.dossier.fileName,
+          fileUrl: sku.dossier.fileUrl
+        })
+      });
 
       if (!response.ok) {
         const errorBody = await response.json().catch(() => null);
@@ -230,7 +228,13 @@ export const ProductDetailPage: React.FC = () => {
       });
       setDownloadedDossierModal(true);
     } catch (error) {
-      setDownloadDoctorError(error instanceof Error ? error.message : 'Unable to save your details. Please try again.');
+      setDownloadDoctorError(
+        error instanceof TypeError
+          ? 'The download service is unavailable. Please ensure the Varuta API is running and try again.'
+          : error instanceof Error
+            ? error.message
+            : 'Unable to save your details. Please try again.'
+      );
     } finally {
       setIsSubmittingDownloadDoctor(false);
     }

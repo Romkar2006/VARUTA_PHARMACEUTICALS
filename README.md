@@ -80,7 +80,21 @@ npm run dev
 ```
 Open [http://localhost:5173](http://localhost:5173) in your browser.
 
-### 3. Production Build
+### 3. Run the Doctor Download API
+
+The clinical document download form saves doctor details to MongoDB before starting the local download. Start MongoDB, configure the backend environment, and run the API in a second terminal:
+
+```bash
+cd VARUTA_PHARMACEUTICALS/Backend
+copy .env.example .env
+npm start
+```
+
+The backend requires MongoDB at the `MONGODB_URI` configured in `Backend/.env`. For a deployed frontend, set `VITE_API_URL` to the public URL of the deployed backend before building.
+
+To email the admin and the doctor after a successful dossier submission, create a Resend account, verify the sender domain/address, and set `RESEND_API_KEY`, `MAIL_FROM`, and `ADMIN_EMAIL` in `Backend/.env`. Never commit these values to GitHub.
+
+### 4. Production Build
 
 ```bash
 npm run build

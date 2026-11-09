@@ -4,11 +4,11 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db');
-const doctorDataRoutes = require('./routes/doctorData');
 
 // Load environment variables
 dotenv.config();
 
+const doctorDataRoutes = require('./routes/doctorData');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
